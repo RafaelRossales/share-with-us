@@ -1,0 +1,14 @@
+POSTGRE
+
+LOGAR: psql -U postgres
+senha: 123456
+
+CRIAR BANCO:
+CREATE DATABASE nome TEMPLATE template0;
+
+\l ->  Listar bancos
+\c -> Logar no banco
+\dt -> L istar Tabelas
+
+
+KNEX (Manipulação da base de dados)
