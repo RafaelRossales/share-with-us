@@ -6,6 +6,7 @@ app.db = db // Knex (Instancia do banco de dados)
 
 consign()
 .then('./config/middleware.js')
+.then('./api/validator.js')
 .then('./api')
 .then('./config/routes.js')
 .into(app)
