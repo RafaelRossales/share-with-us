@@ -19,7 +19,7 @@ module.exports = app =>{
         if(req.params.id) user.id = req.params.id
         
         try{
-            console.log(user)
+
             existsOrError(user.name,'Nome não informado');
             existsOrError(user.email,'E-mail nao informado');
             existsOrError(user.password,'Senha nao informada');
@@ -70,5 +70,15 @@ module.exports = app =>{
         .catch(err => res.status(500).send(err))
     }
 
-    return { save,get }
+    // Recuperar usuário por ID
+    const getById = (req,res) =>{
+        app.db('users')
+        .select('id','name','email','admin')
+        .where({id:req.params.id})
+        .first()
+        .then(user => res.json(user))
+        .catch(err => res.status(500).send(err))
+    }
+
+    return { save , get , getById }
 }
