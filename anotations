@@ -12,3 +12,11 @@ CREATE DATABASE nome TEMPLATE template0;
 
 
 KNEX (Manipulação da base de dados)
+
+
+
+Chave para gerar token (.env)
+
+chave JWD:
+É gerada uma chave jwt um toque que é passado para o front end, toda a requisição que for feita
+sera gerado um token para saber se o usuário esta identificado na aplicação

@@ -4,7 +4,9 @@ const db = require('./config/db');
 
 app.db = db // Knex (Instancia do banco de dados)
 
+//Arquivos de configuração
 consign()
+.include('./config/passport.js')
 .then('./config/middleware.js')
 .then('./api/validator.js')
 .then('./api')

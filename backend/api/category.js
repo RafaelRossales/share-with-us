@@ -1,18 +1,22 @@
 module.exports = app =>{
-    const {existsOrError , notExistsOrError } = app.api.validator
 
+    // Rotinar parea validar os dados informados pelo usuário
+    const {existsOrError , notExistsOrError } = app.api.validator;
+
+
+    // Rotina para persistir os dados na base de dados
     const save =(req,res) =>{
 
-        const category ={...req.body}
+        const category = {...req.body}
 
         if(req.params.id) category.id = req.params.id
-    
+
         try{
-            existsOrError(category.name,"Nome nao informado")
+            existsOrError(category.name,"Nome nao informado");
         }catch(msg){
-            return res.status(400).send(msg)
+            return res.status(400).send(msg);
         }
-    
+
         if(category.id){
             app.db('categories')
             .update(category)
@@ -36,7 +40,7 @@ module.exports = app =>{
     const remove = async (req,res)=>{
 
         try{
-            existsOrError(req.params.id,'Código da categoria nao informado')
+            existsOrError(req.params.id,'Código da categoria nao informado');
 
             const subcategory = await app.db('categories')
             .where({parentId:req.params.id})
@@ -50,10 +54,10 @@ module.exports = app =>{
             .where({id:req.params.id}).del()
             existsOrError(rowsDeleted,'Categoria nao foi encontrada')
 
-            res.status(204).send()
+            res.status(204).send();
             
         }catch(msg){
-            res.status(400).send(msg)
+            res.status(400).send(msg);
         }
     }
 
@@ -81,7 +85,7 @@ module.exports = app =>{
             return 0;
         })
 
-        return categoriesWithPath
+        return categoriesWithPath;
     }
 
     const get =(req,res) =>{
@@ -98,5 +102,22 @@ module.exports = app =>{
         .catch(err=> res.status(500).send(err))
     }
 
-    return { save, remove, get, getById}
+    const toTree = (categories,tree) =>{
+        if(!tree) tree = categories.filter(c => !c.parentId)
+        tree = tree.map(parentNode =>{
+            const isChild = node => node.parentId == parentNode.id
+            parentNode.children = toTree(categories,categories.filter(isChild))
+            return parentNode;
+        })
+
+        return tree;
+    }
+
+    const getTree = (req,res) =>{
+        app.db('categories')
+        .then(categories => res.json(toTree(categories)))
+        .catch(err => res.status(500).send(err))
+    }
+    
+    return { save, remove, get, getById, getTree}
 }
