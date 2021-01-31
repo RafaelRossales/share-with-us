@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 //Arquivo de configuração/comunicação
 import store from './config/store'
+import './config/bootstrap'
 
 Vue.config.productionTip = false
 

@@ -3,12 +3,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-
 Vue.use(Vuex)
 
 export default  new Vuex.Store({
     state:{
-        isMenuVisible:true
+        isMenuVisible:true,
+        user:{
+            name:'Usuário Mock',
+            email:'usuario@gmail.com'
+        }
     },
     //Mutation responsavel pela comunicação do compontent menu
     //e do component header
