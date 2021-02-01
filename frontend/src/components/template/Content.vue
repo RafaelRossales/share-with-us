@@ -1,5 +1,8 @@
 <template>
-  <div class="content"></div>
+  <div class="content">
+    <!-- Renderiza o componente sempre que o mesmo for selecionado -->
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
