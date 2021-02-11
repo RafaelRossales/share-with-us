@@ -122,7 +122,6 @@ export default {
               .then(res=> this.article = res.data )
       },
 
-      
       loadCategories(){
         const url = `${baseApiUrl}/categories`
         axios.get(url).then(res =>{
