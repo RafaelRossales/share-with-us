@@ -33,22 +33,23 @@ module.exports = app =>{
             email:user.email,
             admin:user.admin,
             iat:now,// Data de emissão
+            // exp:now +10
             exp: now + (60 * 60 * 24 * 3) // Definindo a validade do token para 3 dias a contar de sua geração
         }
         //Gerando Token
         res.json({
             ...payload,
-            toke:jwt.encode(payload,authSecret)
+            token:jwt.encode(payload,authSecret)
         })
     }
     const validateToken = async (req,res) =>{
         const userData = req.body || null;
         try{
-            if(userDate){
+            if(userData){
                 const token = jwt.decode(userData.token,authSecret)
 
-                if(new Date(toke.exp * 1000) > new Date()){
-                    return res.send
+                if(new Date(token.exp * 1000) > new Date()){
+                    return res.send(true)
                 }
             }
         }catch(e){

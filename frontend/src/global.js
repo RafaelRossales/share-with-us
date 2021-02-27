@@ -1,5 +1,6 @@
 import Vue from 'vue'
 export const baseApiUrl = 'http://localhost:3305'
+export const userKey = '__knowledge_user' // Chave utilizada no local storage
 
 export function showError(e){
     if(e && e.reponse && e.response.data){

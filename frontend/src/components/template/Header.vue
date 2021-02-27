@@ -7,13 +7,13 @@
       <router-link to="/">{{title}}</router-link>
     </h1>
 
-    <UserDropdown v-if="!hideUserDropDown"/>
+    <UserDropdown v-if="!hideUserDropdown"/>
 
   </header>
 </template>
 
 <script>
-import UserDropdown from './UserDropDown'
+import UserDropdown from './UserDropdown'
 
 export default {
     name:'Header',
@@ -21,7 +21,7 @@ export default {
     props:{
       title:String,
       hideToggle:Boolean,
-      hideUserDropDown: Boolean
+      hideUserDropdown: Boolean
     },
     computed:{
       icon(){

@@ -7,7 +7,11 @@ module.exports = app =>{
     // Rotina para persistir os dados na base de dados
     const save =(req,res) =>{
 
-        const category = {...req.body}
+        const category = {
+        	id:req.body.id,
+        	name:req.body.name,
+        	parentId:req.body.parentId
+        }
 
         if(req.params.id) category.id = req.params.id
 
@@ -64,7 +68,7 @@ module.exports = app =>{
     const withPath = categories =>{
         const getParent = (categories,parentId)=>{
             let parent = categories.filter(parent => parent.id === parentId)
-            return parent.legth ? parent[0] : null;
+            return parent.length ? parent[0] : null;
         }
 
         const categoriesWithPath = categories.map(category =>{
@@ -74,6 +78,7 @@ module.exports = app =>{
             while(parent){
                 path =`${parent.name} > ${path}`
                 parent = getParent(categories,parent.parentId)
+                console.log(path)
             }
 
             return {...category,path}
@@ -85,6 +90,7 @@ module.exports = app =>{
             return 0;
         })
 
+        console.log(categoriesWithPath)
         return categoriesWithPath;
     }
 

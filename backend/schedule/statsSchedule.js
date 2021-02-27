@@ -5,8 +5,10 @@ const schedule = require('node-schedule')
 //base de dados relacional que retornará as estatiticas dos 
 // daddos armazenados 
 module.exports = app =>{
+
     schedule.scheduleJob('*/1****',async function(){
         // 
+        console.log("scheduleJob")
         const userCount = await app.db('users').count('id').first()
         const cateroriesCount = await app.db('categories').count('id').first()
         const articlesCount = await app.db('articles').count('id').first()

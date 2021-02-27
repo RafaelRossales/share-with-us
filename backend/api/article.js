@@ -31,6 +31,7 @@ module.exports = app =>{
         }
         else
         {
+            console.log(article)
             app.db('articles')
             .insert(article)
             .then(_=>res.status(204).send())
@@ -71,15 +72,15 @@ module.exports = app =>{
         .catch(err => res.status(500).send(err))
     }
 
-    const getById = (req,res) =>{
+    const getById = (req, res) => {
         app.db('articles')
-        .where({id:req.params.id})
-        .first()
-        .then(article =>{
-            article.content = article.conten.toString()
-            return res.json(article)
-        })
-        .cateh(err => res.status(500).send(err))
+            .where({ id: req.params.id })
+            .first()
+            .then(article => {
+                article.content = article.content.toString()
+                return res.json(article)
+            })
+            .catch(err => res.status(500).send(err))
     }
 
     //Paginação vertical (MENU)
@@ -102,5 +103,21 @@ module.exports = app =>{
         .catch(err => res.status(500).send(err))
     }
 
-    return { save, remove, get, getById, getByCategory}
+    const toTree = (categories,tree) =>{
+        if(!tree) tree = categories.filter(c => !c.parseId)
+            tree = tree.map(parentNode =>{
+                const isChild = node => node.parentId == parentNode.id
+                parentNode.children = toTree(categories,categories.filter(isChild))
+                return parentNode
+            })
+        return tree
+    }
+
+    const getTree = (req,res) =>{
+        app.db('categories')
+            .then(categories => res.json(toTree(categories)))
+            .catch(err=> res.status(500).send(err))
+    }
+
+    return { save, remove, get, getById, getTree, getByCategory}
 }

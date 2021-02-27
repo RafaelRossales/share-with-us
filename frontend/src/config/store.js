@@ -1,29 +1,36 @@
-//Area de armazenamento 
-//Compartilhada entre componentes
+import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default  new Vuex.Store({
-    state:{
-        isMenuVisible:true,
-        user:{
-            name:'Usuário Mock',
-            email:'usuario@gmail.com'
-        }
+export default new Vuex.Store({
+    state: {
+        isMenuVisible: false,
+        user: null
     },
-    //Mutation responsavel pela comunicação do compontent menu
-    //e do component header
-    mutations:{
-        toggleMenu(state,isVisible){
-            if(isVisible === undefined){
-                state.isMenuVisible = !state.isMenuVisible;
+    mutations: {
+        toggleMenu(state, isVisible) {
+            if(!state.user) {
+                state.isMenuVisible = false
+                return
             }
-            else{
+
+            if(isVisible === undefined) {
+                state.isMenuVisible = !state.isMenuVisible
+            } else {
                 state.isMenuVisible = isVisible
             }
-            console.log(state.isMenuVisible)
+        },
+        setUser(state, user) {
+            state.user = user
+            if(user) {
+                axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`
+                state.isMenuVisible = true
+            } else {
+                delete axios.defaults.headers.common['Authorization']
+                state.isMenuVisible = false
+            }
         }
     }
 })

@@ -70,6 +70,7 @@ export default {
         axios.get(url).then(res =>{
           // this.categories = res.data;
           this.categories =  res.data.map(category =>{
+            console.log(category.id)
             return {...category, value:category.id, text:category.path }
           });
 
